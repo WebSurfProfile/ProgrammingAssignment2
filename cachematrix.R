@@ -11,13 +11,13 @@ makeCacheMatrix <- function(x = matrix()) {
   inv_mat <- NULL
   
   # store matrix data into get function
-  # this will run as soon as the function is loaded
+  # this will run as soon as the get function is loaded
   get <- function() { x }
   
   # store matrix inverse data into getinv function
-  # this will run as soon as the function is loaded
+  # this will run as soon as the getinv function is loaded
   getinv <- function() { 
-    message("trying to get inverse")
+    print("trying to get inverse")
     inv_mat 
   }
   
@@ -27,7 +27,7 @@ makeCacheMatrix <- function(x = matrix()) {
     inv_mat <<- NULL
   }
   
-  # set matrix inverse data. only runs if called
+  # set matrix inverse data. 
   setinv <- function(inv_mat_to_set) {
     inv_mat <<- inv_mat_to_set 
   }
@@ -44,22 +44,26 @@ cacheSolve <- function(x, ...) {
   ## Return a matrix that is the inverse of 'x'
   
   inv <- x$getinv()
-  message("got value from getinv")
+  print("got value from getinv")
   print(inv)
   
   if( !is.null(inv) ) {
-    message("getting cached data")
+    print("getting cached data")
     return(inv)
   }
   
+  # this runs if value is not already stored
   mat_data <- x$get()
-  message("got the value from get function")
+  message("got the value from get function not from cache")
+  
+  #print the value of matrix
   print(mat_data)
   
+  #store matrix values
   inv <- solve(mat_data, ...)
   
   x$setinv(inv)
-  message("inverse of matrix is")
+  print("inverse of matrix is")
   inv
 }
 
